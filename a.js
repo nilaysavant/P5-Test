@@ -10,47 +10,55 @@
 // ball object
 const ball = {
     // Attributes of ball
-    x: 0, // x cord
-    y: 0, // y cord
+    x: 50, // x cord
+    y: 50, // y cord
     speed: 10, // move speed
     dia: 50, // diamenter
     max_x: 100, // max perimeter
     max_y: 100,
+    min_x: 0,
+    min_y: 0,
     mass: 1,
     gforce: 0,
 
     // init function
-    init: (max_x, max_y, gravity) => {
-        ball.gforce = ball.mass * gravity
-        ball.max_y = max_y - ball.dia / 2 - ball.gforce
-        ball.max_x = max_x - ball.dia / 2 - ball.gforce
+    init: function (maxX, maxY, gravity) {
+        this.gforce = this.mass * gravity
+        this.max_y = maxX - this.dia / 2
+        this.max_x = maxY - this.dia / 2
+        this.min_x = 0 + this.dia / 2
     },
 
     // display the ball object
-    display: () => {
-        circle(ball.x, ball.y, ball.dia)
+    display: function () {
+        circle(this.x, this.y, this.dia)
         fill(0)
     },
 
     // movement functions
-    ballUp: (speed = ball.speed) => {
-        ball.y -= speed
+    ballUp: function (speed = this.speed) {
+        this.y -= speed
     },
-    ballDown: (speed = ball.speed) => {
-        ball.y += speed
+    ballDown: function (speed = this.speed) {
+        this.y += speed
     },
-    ballLeft: (speed = ball.speed) => {
-        ball.x -= speed
+    ballLeft: function (speed = this.speed) {
+        this.x = this.x <= this.min_x ? this.min_x : this.x - speed
     },
-    ballRight: (speed = ball.speed) => {
-        ball.x += speed
+    ballRight: function (speed = this.speed) {
+        this.x += speed
     },
 
     // add gravity to ball
-    gravity: () => {
-        ball.y = ball.y > ball.max_y ? ball.y : ball.y + ball.gforce
+    gravity: function () {
+        this.y = this.y >= this.max_y ? this.max_y : this.y + this.gforce
     },
+
+    example: function () {
+        console.table(this)
+    }
 }
+
 
 // SETUP -----------------------------------------<<<
 function setup() {
@@ -65,6 +73,7 @@ function draw() {
     initCanvas()
     ball.display()
     ball.gravity()
+    ball.example()
     keyboardInput()
 }
 
@@ -80,7 +89,6 @@ function initCanvas() {
 
 // KeyPress function
 function keyboardInput() {
-    console.log('keyboard input', keyCode)
     if (keyIsDown(87)) { // W prees: UP
         ball.ballUp(40)
     } else if (keyIsDown(83)) { // S press: DOWN
