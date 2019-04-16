@@ -6,51 +6,73 @@
 */
 
 // GLOBAL Vars
-let frame = 0,
-    task, speed = 4
-ballDia = 50
+
+// ball object
+const ball = {
+    x: 0,
+    y: 0,
+    speed: 4,
+    dia: 50,
+}
 
 // SETUP -----------------------------------------<<<
 function setup() {
     // put setup code here
-    init()
-    frame = 0
-    task = ballDown
+    initCanvas()
+    ball.x = 0
+    ball.y = 0
 }
 
 // DRAW ------------------------------------------<<<
 function draw() {
     clear()
-    init()
-    task()
-    task = frame > height - ballDia / 2 ? ballUp : task
-    task = frame < 0 + ballDia / 2 ? ballDown : task
+    initCanvas()
+    displayBall()
+    keyboardInput()
 }
 
 /*
     A function reset canvas to init state
 */
-function init() {
+function initCanvas() {
     createCanvas(500, 500)
     background(0)
     stroke(255) // Set line drawing color to white
     frameRate(60)
 }
 
+/**
+ * Display a ball 
+ */
+function displayBall() {
+    console.log('display ball')
+    circle(width / 2, ball.y, ball.dia)
+    fill(0)
+}
+
 /*
     A fucntion to move the ball down
 */
 function ballDown() {
-    circle(width / 2, frame, ballDia)
-    fill(0)
-    frame = frame + speed
+    console.log('ball down')
+    ball.y += ball.speed
 }
 
 /*
     A function to move the ball up
 */
 function ballUp() {
-    circle(width / 2, frame, ballDia)
-    fill(0)
-    frame = frame - speed
+    console.log('ball up')
+    ball.y -= ball.speed
+}
+
+// KeyPress function
+function keyboardInput() {
+    console.log('keyboard input')
+    if (keyIsDown(87)) {
+        ballUp()
+    } else if (keyIsDown(83)) {
+        ballDown()
+    }
+    return false; // prevent default
 }
