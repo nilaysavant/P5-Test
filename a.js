@@ -6,8 +6,6 @@
 */
 
 // GLOBAL Vars
-let SCREEN_HEIGHT = window.height,
-    SCREEN_WIDTH = window.width
 
 // ball object
 const ball = {
@@ -23,7 +21,7 @@ const ball = {
 
     // init function
     init: (max_x, max_y, gravity) => {
-        ball.gforce = ball.mass*gravity
+        ball.gforce = ball.mass * gravity
         ball.max_y = max_y - ball.dia / 2 - ball.gforce
         ball.max_x = max_x - ball.dia / 2 - ball.gforce
     },
