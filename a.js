@@ -11,7 +11,7 @@
 const ball = {
     x: 0,
     y: 0,
-    speed: 4,
+    speed: 10,
     dia: 50,
 }
 
@@ -46,33 +46,44 @@ function initCanvas() {
  */
 function displayBall() {
     console.log('display ball')
-    circle(width / 2, ball.y, ball.dia)
+    circle(ball.x, ball.y, ball.dia)
     fill(0)
 }
 
 /*
-    A fucntion to move the ball down
+    A fucntions to move the ball
 */
 function ballDown() {
     console.log('ball down')
     ball.y += ball.speed
 }
 
-/*
-    A function to move the ball up
-*/
 function ballUp() {
     console.log('ball up')
     ball.y -= ball.speed
 }
 
+function ballLeft() {
+    console.log('ball left')
+    ball.x -= ball.speed
+}
+
+function ballRight() {
+    console.log('ball right')
+    ball.x += ball.speed
+}
+
 // KeyPress function
 function keyboardInput() {
-    console.log('keyboard input')
-    if (keyIsDown(87)) {
+    console.log('keyboard input', keyCode)
+    if (keyIsDown(87)) { // W prees: UP
         ballUp()
-    } else if (keyIsDown(83)) {
+    } else if (keyIsDown(83)) { // S press: DOWN
         ballDown()
+    } else if (keyIsDown(65)) { // A press: LEFT
+        ballLeft()
+    } else if (keyIsDown(68)) { // D press: RIGHT
+        ballRight()
     }
     return false; // prevent default
 }
