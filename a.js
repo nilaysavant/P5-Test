@@ -6,6 +6,8 @@
 */
 
 // GLOBAL Vars
+let SCREEN_HEIGHT = window.height,
+    SCREEN_WIDTH = window.width
 
 // ball object
 const ball = {
@@ -14,6 +16,17 @@ const ball = {
     y: 0, // y cord
     speed: 10, // move speed
     dia: 50, // diamenter
+    max_x: 100, // max perimeter
+    max_y: 100,
+    mass: 1,
+    gforce: 0,
+
+    // init function
+    init: (max_x, max_y, gravity) => {
+        ball.gforce = ball.mass*gravity
+        ball.max_y = max_y - ball.dia / 2 - ball.gforce
+        ball.max_x = max_x - ball.dia / 2 - ball.gforce
+    },
 
     // display the ball object
     display: () => {
@@ -22,17 +35,22 @@ const ball = {
     },
 
     // movement functions
-    ballUp: () => {
-        ball.y -= ball.speed
+    ballUp: (speed = ball.speed) => {
+        ball.y -= speed
     },
-    ballDown: () => {
-        ball.y += ball.speed
+    ballDown: (speed = ball.speed) => {
+        ball.y += speed
     },
-    ballLeft: () => {
-        ball.x -= ball.speed
+    ballLeft: (speed = ball.speed) => {
+        ball.x -= speed
     },
-    ballRight: () => {
-        ball.x += ball.speed
+    ballRight: (speed = ball.speed) => {
+        ball.x += speed
+    },
+
+    // add gravity to ball
+    gravity: () => {
+        ball.y = ball.y > ball.max_y ? ball.y : ball.y + ball.gforce
     },
 }
 
@@ -40,8 +58,7 @@ const ball = {
 function setup() {
     // put setup code here
     initCanvas()
-    ball.x = 0
-    ball.y = 0
+    ball.init(width, height, 15)
 }
 
 // DRAW ------------------------------------------<<<
@@ -49,6 +66,7 @@ function draw() {
     clear()
     initCanvas()
     ball.display()
+    ball.gravity()
     keyboardInput()
 }
 
@@ -59,22 +77,14 @@ function initCanvas() {
     createCanvas(500, 500)
     background(0)
     stroke(255) // Set line drawing color to white
-    frameRate(60)
-}
-
-
-/**
- *  add gravity to ball
- */
-function addGravity() {
-
+    frameRate(60) // 60 fps
 }
 
 // KeyPress function
 function keyboardInput() {
     console.log('keyboard input', keyCode)
     if (keyIsDown(87)) { // W prees: UP
-        ball.ballUp()
+        ball.ballUp(40)
     } else if (keyIsDown(83)) { // S press: DOWN
         ball.ballDown()
     } else if (keyIsDown(65)) { // A press: LEFT
