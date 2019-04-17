@@ -12,6 +12,8 @@ const ball = {
     // Attributes of ball
     x: 50, // x cord
     y: 50, // y cord
+    rel_height: 0, // the max value of height when released 
+    bounce: 0,
     speed: 10, // move speed
     dia: 50, // diamenter
     max_x: 100, // max perimeter
@@ -38,6 +40,7 @@ const ball = {
     // movement functions
     ballUp: function (speed = this.speed) {
         this.y -= speed
+        this.rel_height = this.y
     },
     ballDown: function (speed = this.speed) {
         this.y += speed
@@ -51,10 +54,31 @@ const ball = {
 
     // add gravity to ball
     gravity: function () {
-        this.y = this.y >= this.max_y ? this.max_y : this.y + this.gforce
+        if (this.y >= this.max_y) {
+            this.y = this.max_y
+
+            this.bounce = abs(this.max_y - this.rel_height)
+            this.y = this.bounce > this.dia ? this.y - 1 : this.y
+
+            this.rel_height = this.max_y
+        } else {
+            if (this.bounce > 0) {
+                this.y -= this.gforce
+                this.bounce -= 37
+            } else {
+                this.bounce = 0
+                this.y += this.gforce
+            }
+            this.rel_height = min(this.rel_height, this.y)
+        }
+        // this.y = this.y >= this.max_y ? this.max_y : this.y + this.gforce
     },
 
-    example: function () {
+    // bounce: function (height = this.rel_height) {
+    //     this.y = this.y >= height ? this.y : this.y - this.speed
+    // },
+
+    log: function () {
         console.table(this)
     }
 }
@@ -67,14 +91,16 @@ function setup() {
     ball.init(width, height, 15)
 }
 
+
 // DRAW ------------------------------------------<<<
 function draw() {
     clear()
     initCanvas()
     ball.display()
     ball.gravity()
-    ball.example()
     keyboardInput()
+
+    ball.log()
 }
 
 /*
