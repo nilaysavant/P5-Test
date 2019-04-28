@@ -75,12 +75,32 @@
 // }
 
 
+function drawArrow(base, vec, myColor) {
+    push();
+    stroke(myColor);
+    strokeWeight(3);
+    fill(myColor);
+    translate(base.x, base.y);
+    line(0, 0, vec.x, vec.y);
+    rotate(vec.heading());
+    let arrowSize = 7;
+    translate(vec.mag() - arrowSize, 0);
+    triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
+    pop();
+}
 
 class Ball {
     constructor(dia, mass) {
-        this.dia = dia
+        // Attributes of ball
+        this.pos = createVector(50, 50) // pos vector
+
+        let rel_height = 0 // the max value of height when released 
+        let bounce = 0
+        this.speed = 10 // move speed
+        this.dia = 50 // diamenter
+        this.maxpos = createVector(100,100)
+        this.minpos = createVector(0, 0)
         this.mass = mass
-        this.pos = createVector(width/2, height/2)
     }
     log() {
         console.table(this)
@@ -88,5 +108,24 @@ class Ball {
     show() {
         circle(this.pos.x, this.pos.y, this.dia)
         fill(0)
+    }
+    gravity() {
+        let grav = createVector(this.pos.x, height)
+        this.gforce = p5.Vector.sub(grav, this.pos)
+        drawArrow(this.pos, this.gforce, 'blue')
+    }
+    // movement functions
+    ballUp(speed = this.speed) {
+        this.pos.y -= speed
+        this.rel_height = this.pos.y
+    }
+    ballDown(speed = this.speed) {
+        this.pos.y += speed
+    }
+    ballLeft(speed = this.speed) {
+        this.pos.x = this.pos.x <= this.minpos.x ? this.minpos.x : this.pos.x - speed
+    }
+    ballRight(speed = this.speed) {
+        this.pos.x += speed
     }
 }

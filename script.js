@@ -10,6 +10,7 @@
 let ball;
 
 
+
 // SETUP -----------------------------------------<<<
 function setup() {
     // put setup code here
@@ -23,11 +24,11 @@ function draw() {
     clear()
     initCanvas()
     // ball.display()
-    // ball.gravity()
-    // keyboardInput()
+    ball.gravity()
+    keyboardInput()
 
     ball.show()
-    ball.log()
+    // ball.log()
 
 }
 
