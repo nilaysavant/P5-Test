@@ -95,10 +95,10 @@ class Ball {
         this.pos = createVector(50, 50) // pos vector
 
         let rel_height = 0 // the max value of height when released 
-        let bounce = 0
+        this.bounce = 0
         this.speed = 10 // move speed
         this.dia = 50 // diamenter
-        this.maxpos = createVector(100,100)
+        this.maxpos = createVector(100, 100)
         this.minpos = createVector(0, 0)
         this.mass = mass
     }
