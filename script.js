@@ -35,7 +35,7 @@ function draw() {
     A function reset canvas to init state
 */
 function initCanvas() {
-    createCanvas(1000, 500)
+    createCanvas(1350, 610)
     background(0)
     stroke(255) // Set line drawing color to white
     frameRate(60) // 60 fps
