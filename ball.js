@@ -1,4 +1,3 @@
-
 function drawArrow(base, vec, myColor) {
     push();
     stroke(myColor);
@@ -26,7 +25,7 @@ class Ball {
         this.minpos = createVector(this.dia / 2, height - this.dia / 2 - 5)
         this.mass = mass
         this.jumping = false
-        this.velocity = createVector(0,0)
+        this.velocity = createVector(0, 0)
     }
     log() {
         console.table(this)
@@ -34,20 +33,24 @@ class Ball {
     show() {
         circle(this.pos.x, this.pos.y, this.dia)
         fill(0)
-        
-        
+
+
         this.velocity.setMag(this.velocity.mag() - 1)
-        
+
         this.velocity.limit(20)
-        
+
         this.pos.x += this.velocity.x
         this.pos.y += this.velocity.y
-        
-        if (this.pos.x <= this.minpos.x){
+
+        if (this.pos.x <= this.minpos.x) {
             this.pos.x = this.minpos.x
         }
-        if (this.pos.y >= this.minpos.y){
+        if (this.pos.y >= this.minpos.y) {
             this.pos.y = this.minpos.y
+            let bounce = this.velocity.copy()
+            bounce.mult(-2)
+            bounce.x = 0
+            this.velocity = p5.Vector.add(this.velocity, bounce)
         }
         drawArrow(this.pos, this.velocity, 'red')
     }
@@ -56,20 +59,19 @@ class Ball {
         this.gforce = p5.Vector.sub(grav, this.pos)
         drawArrow(this.pos, this.gforce, 'blue')
 
-        this.velocity.y += this.rel_height * 0.01
+        this.gforce.setMag(1.5)
+        this.velocity = p5.Vector.add(this.velocity, this.gforce)
+        
     }
     // movement functions
     ballUp() {
-        
-        this.velocity.y -= this.speed * 2
-
-        let grav = createVector(this.pos.x, height + this.dia/2)
+        this.velocity.y -= this.speed * 0.8
+        this.rel_height = height - this.pos.y
+        let grav = createVector(this.pos.x, height + this.dia / 2)
         drawArrow(grav, this.gforce.mult(-1), 'yellow')
-
     }
     ballDown() {
         this.velocity.y += this.speed
-
     }
     ballLeft() {
         this.velocity.x -= this.speed
