@@ -110,20 +110,30 @@ class Ball {
         circle(this.pos.x, this.pos.y, this.dia)
         fill(0)
 
-        this.pos.x = (this.pos.x >= this.minpos.x )? this.pos.x : this.minpos.x
-        this.pos.y = (this.pos.y <= this.minpos.y )? this.pos.y : this.minpos.y
+        this.pos.x = (this.pos.x >= this.minpos.x) ? this.pos.x : this.minpos.x
+        this.pos.y = (this.pos.y <= this.minpos.y) ? this.pos.y : this.minpos.y
     }
     gravity() {
         let grav = createVector(this.pos.x, height)
         this.gforce = p5.Vector.sub(grav, this.pos)
         drawArrow(this.pos, this.gforce, 'blue')
 
-        this.pos.y = (this.pos.y < this.minpos.y) ? this.pos.y + this.rel_height * 0.1 : this.pos.y
+        if (this.pos.y < this.minpos.y) {
+            this.pos.y = this.pos.y + this.rel_height * 0.1
+        } else {
+            this.pos.y -= this.rel_height * 0.5
+        }
+        this.rel_height = (this.rel_height > 0) ? this.rel_height - 5 : 0
     }
     // movement functions
     ballUp() {
-        this.pos.y -= this.speed* 2.8
+        this.pos.y -= this.speed * 2.8
         this.rel_height = height - this.pos.y
+        
+        let grav = createVector(this.pos.x, height)
+        let upforce = p5.Vector.sub(this.pos, grav)
+        drawArrow(this.pos, upforce, 'red')
+
     }
     ballDown() {
         this.pos.y += this.speed
