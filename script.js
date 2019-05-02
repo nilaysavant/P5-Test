@@ -26,7 +26,6 @@ function draw() {
     // ball.display()
     ball.gravity()
     keyboardInput()
-
     ball.show()
     // ball.log()
 
@@ -45,7 +44,7 @@ function initCanvas() {
 // KeyPress function
 function keyboardInput() {
     if (keyIsDown(87)) { // W prees: UP
-        ball.ballUp(40)
+        ball.ballUp()
     } else if (keyIsDown(83)) { // S press: DOWN
         ball.ballDown()
     } else if (keyIsDown(65)) { // A press: LEFT

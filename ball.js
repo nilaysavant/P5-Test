@@ -94,13 +94,14 @@ class Ball {
         // Attributes of ball
         this.pos = createVector(50, 50) // pos vector
 
-        let rel_height = 0 // the max value of height when released 
+        this.rel_height = 200 // the max value of height when released 
         this.bounce = 0
-        this.speed = 10 // move speed
+        this.speed = 15 // move speed
         this.dia = 50 // diamenter
         this.maxpos = createVector(100, 100)
-        this.minpos = createVector(0, 0)
+        this.minpos = createVector(this.dia / 2, height - this.dia / 2 - 5)
         this.mass = mass
+        this.jumping = false
     }
     log() {
         console.table(this)
@@ -108,24 +109,29 @@ class Ball {
     show() {
         circle(this.pos.x, this.pos.y, this.dia)
         fill(0)
+
+        this.pos.x = (this.pos.x >= this.minpos.x )? this.pos.x : this.minpos.x
+        this.pos.y = (this.pos.y <= this.minpos.y )? this.pos.y : this.minpos.y
     }
     gravity() {
         let grav = createVector(this.pos.x, height)
         this.gforce = p5.Vector.sub(grav, this.pos)
         drawArrow(this.pos, this.gforce, 'blue')
+
+        this.pos.y = (this.pos.y < this.minpos.y) ? this.pos.y + this.rel_height * 0.1 : this.pos.y
     }
     // movement functions
-    ballUp(speed = this.speed) {
-        this.pos.y -= speed
-        this.rel_height = this.pos.y
+    ballUp() {
+        this.pos.y -= this.speed* 2.8
+        this.rel_height = height - this.pos.y
     }
-    ballDown(speed = this.speed) {
-        this.pos.y += speed
+    ballDown() {
+        this.pos.y += this.speed
     }
-    ballLeft(speed = this.speed) {
-        this.pos.x = this.pos.x <= this.minpos.x ? this.minpos.x : this.pos.x - speed
+    ballLeft() {
+        this.pos.x -= this.speed
     }
-    ballRight(speed = this.speed) {
-        this.pos.x += speed
+    ballRight() {
+        this.pos.x += this.speed
     }
 }
