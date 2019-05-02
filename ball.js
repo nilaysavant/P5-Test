@@ -59,8 +59,9 @@ class Ball {
         this.gforce = p5.Vector.sub(grav, this.pos)
         drawArrow(this.pos, this.gforce, 'blue')
 
-        this.gforce.setMag(1.5)
-        this.velocity = p5.Vector.add(this.velocity, this.gforce)
+        let tempVec = this.gforce.copy()
+        tempVec.setMag(1.5)
+        this.velocity = p5.Vector.add(this.velocity, tempVec)
         
     }
     // movement functions
