@@ -20,20 +20,34 @@ class Ball {
         this.rel_height = 200 // the max value of height when released 
         this.bounce = 0
         this.speed = 15 // move speed
-        this.dia = 25 // diamenter
+        this.dia = 50 // diamenter
         this.maxpos = createVector(100, 100)
         this.minpos = createVector(this.dia / 2, height - this.dia / 2 - 5)
         this.mass = mass
-        this.jumping = false
         this.velocity = createVector(0, 0)
+        this.history = []
     }
     log() {
         console.table(this)
     }
     show() {
+        stroke(255)
         circle(this.pos.x, this.pos.y, this.dia)
         fill(0)
 
+        this.history.push({
+            x: this.pos.x,
+            y: this.pos.y
+        })
+        for (let i of this.history) {
+            noStroke()
+            fill(206, 160 , 101)
+            circle(i.x, i.y, this.dia * 0.2)
+            fill(0)
+        }
+        if (this.history.length > 15) {
+            this.history.shift()
+        }
 
         this.velocity.setMag(this.velocity.mag() - 1)
 
@@ -62,7 +76,7 @@ class Ball {
         let tempVec = this.gforce.copy()
         tempVec.setMag(1.5)
         this.velocity = p5.Vector.add(this.velocity, tempVec)
-        
+
     }
     // movement functions
     ballUp() {
