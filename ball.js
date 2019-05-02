@@ -129,10 +129,9 @@ class Ball {
     ballUp() {
         this.pos.y -= this.speed * 2.8
         this.rel_height = height - this.pos.y
-        
-        let grav = createVector(this.pos.x, height)
-        let upforce = p5.Vector.sub(this.pos, grav)
-        drawArrow(this.pos, upforce, 'red')
+
+        let grav = createVector(this.pos.x, height + this.dia/2)
+        drawArrow(grav, this.gforce.mult(-1), 'yellow')
 
     }
     ballDown() {
