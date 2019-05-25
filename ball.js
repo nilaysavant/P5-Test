@@ -41,7 +41,7 @@ class Ball {
         })
         for (let i of this.history) {
             noStroke()
-            fill(206, 160 , 101)
+            fill(206, 160, 101)
             circle(i.x, i.y, this.dia * 0.2)
             fill(0)
         }
